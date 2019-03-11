@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UCI Menus</title>
+  <script type="text/javascript" src = "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  var lunchId = 106;
+  var brunchId = 2651;
+  var dinnerId = 107;
+  var latenightId = 108;
+  var locationId = {pippins: 4832, anteatery: 3056};
+  var fullName = {pippins: 'PippinCommons', anteatery: 'TheAnteatery'};
+
+  $(document).ready(function(){
+    var d = new Date();
+    var options = {year: 'numeric', month: '2-digit', day: '2-digit'}
+    var date = Intl.DateTimeFormat('en-US', options).format(d)
+    var getParams = new URLSearchParams(window.location.search);
+    var restaurant = 'pippins';
+    if (getParams.has('r')) {
+      restaurant = getParams.get('r');
+    }
+    var hour = d.getHours();
+    var day = d.getDay();
+    var periodId = 0;
+    if (hour <= 14) {
+      periodId = (day == 6 || day == 0) ? brunchId : lunchId;
+    } else if (hour <= 19) {
+      periodId = dinnerId;
+    } else {
+      periodId = latenightId;
+    }
+
+    url = "https://uci.campusdish.com/LocationsAndMenus/"
+         + fullName[restaurant] + "?"
+         + "locationId=" + locationId[restaurant]
+         + "&mode=Daily"
+         + "&periodId=" + periodId
+         + "&date=" + date;
+    console.log(url);
+    window.location.replace(url);
+  });
+</script>
+</body>
+</html>
