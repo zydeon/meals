@@ -3,6 +3,8 @@
 <head>
   <title>UCI Menus</title>
   <script type="text/javascript" src = "https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 <body>
 <script type="text/javascript">
@@ -13,15 +15,21 @@
   var locationId = {pippins: 4832, anteatery: 3056};
   var fullName = {pippins: 'PippinCommons', anteatery: 'TheAnteatery'};
 
+  function getUrl(fullName, locationId, periodId, date) {
+    url = "https://uci.campusdish.com/LocationsAndMenus/"
+         + fullName + "?"
+         + "locationId=" + locationId
+         + "&mode=Daily"
+         + "&periodId=" + periodId
+         + "&date=" + date;
+    console.log(url);
+    return url;
+  }
+
   $(document).ready(function(){
     var d = new Date();
     var options = {year: 'numeric', month: '2-digit', day: '2-digit'}
     var date = Intl.DateTimeFormat('en-US', options).format(d)
-    var getParams = new URLSearchParams(window.location.search);
-    var restaurant = 'pippins';
-    if (getParams.has('r')) {
-      restaurant = getParams.get('r');
-    }
     var hour = d.getHours();
     var day = d.getDay();
     var periodId = 0;
@@ -33,15 +41,35 @@
       periodId = latenightId;
     }
 
-    url = "https://uci.campusdish.com/LocationsAndMenus/"
-         + fullName[restaurant] + "?"
-         + "locationId=" + locationId[restaurant]
-         + "&mode=Daily"
-         + "&periodId=" + periodId
-         + "&date=" + date;
-    console.log(url);
-    window.location.replace(url);
+    url = getUrl(fullName["anteatery"], locationId["anteatery"], periodId, date);
+    $('#frame').attr('data', url);
+
+    // Set events
+    $("#anteatery").click(function() {
+      url = getUrl(fullName["anteatery"], locationId["anteatery"], periodId, date);
+      $('#frame').attr('data', url);
+    });
+    $("#pippins").click(function() {
+      url = getUrl(fullName["pippins"], locationId["pippins"], periodId, date);
+      $('#frame').attr('data', url);
+    });
   });
 </script>
+
+<div id="header">
+  <center>
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      <label id="anteatery" class="btn btn-secondary active">
+        <input type="radio" name="options" autocomplete="off" checked> Anteatery
+      </label>
+      <label id="pippins" class="btn btn-secondary">
+        <input type="radio" name="options" autocomplete="off"> Pippins
+      </label>
+    </div>
+  <hr>
+  </center>
+</div>
+
+<object id = "frame" type = "text/html" width = "100%" height = "1024px"/>
 </body>
 </html>
