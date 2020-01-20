@@ -12,8 +12,8 @@
   var brunchId = 2651;
   var dinnerId = 107;
   var latenightId = 108;
-  var locationId = {pippins: 4832, anteatery: 3056};
-  var fullName = {pippins: 'PippinCommons', anteatery: 'TheAnteatery'};
+  var locationId = {brandywine: 3314, anteatery: 3056};
+  var fullName = {brandywine: 'Brandywine', anteatery: 'TheAnteatery'};
 
   function getUrl(fullName, locationId, periodId, date) {
     url = "https://uci.campusdish.com/LocationsAndMenus/"
@@ -49,8 +49,8 @@
       url = getUrl(fullName["anteatery"], locationId["anteatery"], periodId, date);
       $('#frame').attr('data', url);
     });
-    $("#pippins").click(function() {
-      url = getUrl(fullName["pippins"], locationId["pippins"], periodId, date);
+    $("#brandywine").click(function() {
+      url = getUrl(fullName["brandywine"], locationId["brandywine"], periodId, date);
       $('#frame').attr('data', url);
     });
   });
@@ -62,8 +62,8 @@
       <label id="anteatery" class="btn btn-secondary active">
         <input type="radio" name="options" autocomplete="off" checked> Anteatery
       </label>
-      <label id="pippins" class="btn btn-secondary">
-        <input type="radio" name="options" autocomplete="off"> Pippins
+      <label id="brandywine" class="btn btn-secondary">
+        <input type="radio" name="options" autocomplete="off"> Brandywine
       </label>
     </div>
   <hr>
